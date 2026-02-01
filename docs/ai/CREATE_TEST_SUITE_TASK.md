@@ -2,7 +2,7 @@
 
 You are an AI engineering agent tasked with **creating or extending** a **comprehensive `pytest` test suite** for a specified Python module.
 
-### 0) Inputs you will be given
+### 0. Inputs you will be given
 
 You will be provided:
 
@@ -15,7 +15,7 @@ You must infer everything else by reading the repository files.
 
 ---
 
-## 1) Core objective
+## 1. Core objective
 
 Produce a **high-quality, comprehensive pytest test module** for the target module that:
 
@@ -26,7 +26,7 @@ Produce a **high-quality, comprehensive pytest test module** for the target modu
 
 ---
 
-## 2) Mandatory repo discovery steps (do these first)
+## 2. Mandatory repo discovery steps (do these first)
 
 1. **Locate `pyproject.toml`** at repo root.
 2. Determine where tests must live by inspecting `pyproject.toml` and repo conventions:
@@ -43,7 +43,7 @@ Produce a **high-quality, comprehensive pytest test module** for the target modu
 
 ---
 
-## 3) Test file naming and placement rules (strict)
+## 3. Test file naming and placement rules (strict)
 
 ### Naming rule
 
@@ -74,7 +74,7 @@ Place this file in the test directory determined in section (2), consistent with
 
 ---
 
-## 4) "Extend instead of overwrite" rule
+## 4. "Extend instead of overwrite" rule
 
 If the target test file already exists:
 
@@ -92,7 +92,7 @@ If the target test file already exists:
 
 ---
 
-## 5) Coverage requirements
+## 5. Coverage requirements
 
 Your suite must include, where applicable:
 
@@ -128,7 +128,7 @@ If behavior is ambiguous, write tests that document current behavior and add a c
 
 ---
 
-## 6) Test design standards (strict)
+## 6. Test design standards (strict)
 
 * Use `pytest` idioms:
     * `pytest.mark.parametrize`
@@ -143,7 +143,7 @@ If behavior is ambiguous, write tests that document current behavior and add a c
 
 ---
 
-## 7) Quality bar for assertions
+## 7. Quality bar for assertions
 
 Each test must have:
 
@@ -153,7 +153,7 @@ Each test must have:
 
 ---
 
-## 8) Optional improvements (allowed, but constrained)
+## 8. Optional improvements (allowed, but constrained)
 
 You may add:
 
@@ -164,7 +164,7 @@ You may **not** change production code unless explicitly instructed. If you find
 
 ---
 
-## 9) Output format (what you must produce)
+## 9. Output format (what you must produce)
 
 Return:
 
