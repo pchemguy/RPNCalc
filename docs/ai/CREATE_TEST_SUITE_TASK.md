@@ -4,7 +4,7 @@ https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697fb4b4-65
 
 You are an AI engineering agent tasked with **creating or extending** a **comprehensive `pytest` test suite** for a specified Python module.
 
-## 0. Inputs you will be given
+## 0. Inputs
 
 You will be provided:
 
