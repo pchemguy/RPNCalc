@@ -26,20 +26,9 @@ Produce a **high-quality, comprehensive pytest test module** for the target modu
 
 ---
 
-## 2. Mandatory repo discovery steps (do these first)
+## 2. Read `AGENTS.md`
 
-1. **Locate `pyproject.toml`** at repo root.
-2. Determine where tests must live by inspecting `pyproject.toml` and repo conventions:
-    * Look for pytest configuration: `[tool.pytest.ini_options]` (especially `testpaths`).
-    * If `testpaths` exists, place the test file under one of those directories.
-    * Otherwise, follow repo convention (commonly `tests/` at repo root).
-3. Identify package layout:
-    * Confirm whether source is under `src/` (e.g., `src/<package>/...`).
-4. Scan for existing testing utilities and fixtures:
-    * `conftest.py`, `tests/helpers.py`, existing fixtures, factories, etc.
-5. Determine how tests are run in this project (from README, `pytest.ini`, `pyproject.toml`).
-
-**Do not** guess test locations without checking `pyproject.toml`.
+You must read and operationalize `AGENTS.md` before creating or modifying any files.
 
 ---
 
@@ -49,7 +38,9 @@ Produce a **high-quality, comprehensive pytest test module** for the target modu
 
 Construct the test module filename as:
 
-* `"test_" + <full_package_spec_with_dots_replaced_by_underscores> + "_" + <module_basename> + ".py"`
+```
+test_<full_package_spec_with_dots_replaced_by_underscores>_<module_basename>.py
+```
 
 Where:
 
@@ -74,13 +65,13 @@ Place this file in the test directory determined in section (2), consistent with
 
 ---
 
-## 4. "Extend instead of overwrite" rule
+## 4. Extend-in-place rule
 
 If the target test file already exists:
 
 1. Read it fully.
 2. Identify:
-    * Available fixtures.
+    * Defined fixtures.
     * Covered functions/branches/inputs.
     * Missing scenarios (edge cases, error paths, unusual inputs, platform quirks).
     * Redundant tests, unclear naming, missing assertions.
@@ -92,11 +83,37 @@ If the target test file already exists:
 
 ---
 
-## 5. Coverage requirements
+## 5. Coverage requirements and Coverage Matrix (required, before implementation)
+
+### Coverage Matrix
+
+Before adding or modifying tests, construct a **Coverage Matrix**.
+
+#### Rows
+
+* Each public function, class, and method
+* Internal helpers that implement non-trivial logic and affect observable behavior
+
+#### Columns
+
+1. Typical usage paths
+2. Boundary conditions implied by the code
+3. Error or exceptional behavior implemented in the code
+4. Statefulness or repeated invocation effects (if any)
+5. Determinism / purity
+6. Interaction with external state (filesystem, environment, time, randomness), if applicable
+
+For each cell:
+
+* ✅ covered (cite test)
+* ❌ uncovered (describe behavior to be tested)
+* N/A with justification
+
+### Requirements
 
 Your suite must include, where applicable:
 
-### A) Public API coverage
+#### A) Public API coverage
 
 * Every public function/class/method in the module.
 * For classes:
@@ -105,7 +122,7 @@ Your suite must include, where applicable:
     * repr/str if implemented
     * equality/hash if implemented
 
-### B) Behavior categories
+#### B) Behavior categories
 
 For each callable:
 
@@ -118,7 +135,7 @@ For each callable:
 5. **Platform/path realities** (if file paths involved): Windows vs POSIX separators, newline handling.
 6. **Determinism**: outputs should be consistent across runs.
 
-### C) Negative testing discipline
+#### C) Negative testing discipline
 
 * Do not add "fantasy behavior" tests. Only test:
     * behavior implemented now, or
