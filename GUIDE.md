@@ -1,4 +1,4 @@
-## 🛠 Project Blueprint: The Robust RPN Engine
+## 🛠 Project Blueprint: RPN Calculator
 
 ### 1. Learning Goals
 
@@ -34,10 +34,6 @@ To practice real-world development, don't put everything in one file. Structure 
 | **Unary Operators**          | Input: `-5 abs`                                               | Handling operators that only require *one* number instead of two.                             |
 | **Memory Persistence**       | User enters `5`, then `10`, then `+` in three separate lines. | The stack must persist across multiple input calls.                                           |
 | **Large Numbers**            | Input: `10**1000`                                             | Handling potential `OverflowError` in Python for extreme calculations.                        |
-
-
-
-
 
 ---
 
