@@ -2,7 +2,7 @@
 
 You are an AI engineering agent tasked with **creating or extending** a **comprehensive `pytest` test suite** for a specified Python module.
 
-### 0. Inputs you will be given
+## 0. Inputs you will be given
 
 You will be provided:
 
@@ -154,6 +154,12 @@ If behavior is ambiguous, write tests that document current behavior and add a c
 * Prefer **pure unit tests**.
 * Avoid external network and system dependencies.
 * Avoid random unless seeded and asserted appropriately.
+- Assertions
+    * Assert observable behavior
+    * Do not assert internal implementation details unless part of the contract (as indicated in docstrings or reference docs)
+    * For exceptions:
+        * assert exception type
+        * assert stable message content
 * Do not rely on test execution order.
 * Keep tests fast; avoid large loops or large data unless necessary.
 * Use **descriptive test names**: `test_<unit>_<condition>_<expected>()`.
@@ -170,24 +176,39 @@ Each test must have:
 
 ---
 
-## 8. Optional improvements (allowed, but constrained)
+## 8. Allowed additions
 
 You may add:
 
-* `conftest.py` fixtures **only** if it reduces duplication across multiple tests (if the module exists, read it and update as necessary).
+* `conftest.py` fixtures **only** if it reduces duplication across multiple tests.
 * Small test helpers inside the test module (for existing module, consider reusing any suitable fixtures already defined before creating new ones).
 
 You may **not** change production code unless explicitly instructed. If you find a bug or design flaw, note it in comments or a short section at the end of your response.
 
 ---
 
-## 9. Output format (what you must produce)
+## 9. Required outputs (order matters)
 
 Return:
 
-1. The **exact path** where the test file must be placed (repo-relative).
-2. The complete contents of the test file.
-3. A short checklist of what is covered (functions/classes + key scenarios).
+1. Repository discovery summary
+2. Coverage Matrix
+3. Implementation plan mapping matrix gaps to tests
+4. Final artifact:
+    * exact test file path
+    * full test file contents
+5. Coverage checklist (functions/classes + key scenarios).
+
+---
+
+## 10. Completion criteria
+
+The task is complete only when:
+
+* All public API behavior is covered
+* No Coverage Matrix gap remains unexplained
+* Tests pass under the repository’s pytest configuration
+* Test file naming and placement rules are satisfied
 
 ---
 
