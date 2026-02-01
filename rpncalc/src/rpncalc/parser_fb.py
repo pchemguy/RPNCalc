@@ -1,9 +1,16 @@
-# rpncalc/parser.py
+# parser_fb.py
+
+"""Feasibility probes for parser.py
+
+This module contains minimalistic code snippets implementing feasibility
+probes for parser.py. Routines are intentionally dumb and side-effect free.
+
+"""
 
 from __future__ import annotations
 
 
-def tokenize_minimal(text: str) -> list[str]:
+def tokenize(text: str = "") -> list[str]:
     """Return whitespace-delimited tokens with zero validation.
 
     Feasibility-probe parser:
@@ -18,9 +25,6 @@ def tokenize_minimal(text: str) -> list[str]:
     Returns:
       List of tokens (possibly empty).
     """
-    if text is None:
-        return []
-
     # str(...) is the lowest-friction "total" conversion in Python.
     # Using split() (no sep) collapses runs of whitespace and strips edges.
     return str(text).split()
