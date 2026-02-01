@@ -1,3 +1,5 @@
+https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697f3290-ae34-8385-9002-88222ba30320
+
 I want to practice AI-assisted python project development, debugging, and testing using this project. Specifically, I want to practice development workflows enabling systematic development of a complex projects idea through and incremental series of prototypes and towards a well-developed MVP.
 
 Below are early notes and everything should be considered questionable.
