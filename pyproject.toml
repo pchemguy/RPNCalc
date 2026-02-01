@@ -119,8 +119,7 @@ unfixable = [
 
 [tool.ruff.lint.isort]
 # Keep imports stable across the repo; update if your top-level package differs.
-# known-first-party = ["rpncalc"]
-known-third-party = ["rpncalc"]
+known-first-party = ["rpncalc"]
 combine-as-imports = true
 
 
