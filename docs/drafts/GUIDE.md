@@ -1,3 +1,5 @@
+https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697f3290-ae34-8385-9002-88222ba30320
+
 ## 🛠 Project Blueprint: RPN Calculator
 
 ### 1. Learning Goals
