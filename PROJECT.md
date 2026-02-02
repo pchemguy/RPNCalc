@@ -1,3 +1,5 @@
+# PROJECT.md
+
 ## RPN Calculator (Feasibility- and Test-Driven Development)
 
 This project is a **learning and practice vehicle** for AI-assisted Python development of a small but non-trivial system, emphasizing **incremental prototypes, feasibility probes, and test-driven refinement** toward a clean MVP.
