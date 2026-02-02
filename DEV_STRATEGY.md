@@ -44,7 +44,7 @@ Prefer adding a potentially low-value FP over omitting a medium-value FP.
 ### Structural Rules
 
 - Feasibility probes live in **companion modules** collocated with their target modules and suffixed with `_fp` (e.g. `parser_fp.py`, `engine_fp.py`).
-- Production modules (`parser.py`, `engine.py`, …) must not import from `_fp` modules.
+- Production modules (`parser.py`, `engine.py`, ...) must not import from `_fp` modules.
 - Probes may be incomplete, permissive, or redundant by design.
 
 ---

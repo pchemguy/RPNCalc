@@ -9,8 +9,8 @@ You are tasked with **creating or extending** a **comprehensive `pytest` test su
 > You will be provided:
 >
 > * **Target module path** (one of):
->   * a local file path (e.g., `rpncalc/src/rpncalc/parser.py`), or
->   * a GitHub repo path reference using the same repository-relative format.
+>    * a local file path (e.g., `rpncalc/src/rpncalc/parser.py`), or
+>    * a GitHub repo path reference using the same repository-relative format.
 > * Optionally, a short note describing intended behavior.
 >
 > You must infer everything else by reading the repository files.
@@ -28,11 +28,13 @@ Produce a **high-quality, comprehensive pytest test module** for the target modu
 * Is **stable** (no flaky timing assumptions, no dependence on external network/services).
 * Is **readable and maintainable** (tests explain intent clearly).
 
+If the target module filename ends with `_fp.py`, treat it as a feasibility probe: tests must cover only behaviors explicitly implemented in the probe and must not infer or enforce future intended semantics.
+
 ---
 
 ## 2. Read `AGENTS.md`
 
-You must read and operationalize `AGENTS.md` before creating or modifying any files.
+You must read and operationalize root `AGENTS.md` and any files it requires you to read.
 
 ---
 
@@ -56,8 +58,6 @@ Where:
 ```
 test_<module_basename>.py
 ```
-
-(no extra underscore).
 
 ---
 
@@ -169,16 +169,16 @@ Your suite must include, where applicable:
 
 #### B) Behavior categories
 
-For each callable:
+For each callable, cover:
 
-1. **Happy path** (typical valid inputs).
-2. **Boundary/edge cases** (empty inputs, minimal inputs, max-like inputs, whitespace, None if allowed).
-3. **Invalid inputs and error handling**
+1. Typical usage paths evidenced by code/docs.
+2. Boundary conditions *implied by the implementation* (e.g., branching predicates, container length checks, parsing branches, sentinel handling).
+3. Error/exception behavior actually implemented:
     * Verify raised exception types and messages **when stable**.
     * If messages are unstable, assert on exception type only or message substring.
-4. **Statefulness** (if any): repeated calls, idempotency, mutation vs immutability.
-5. **Platform/path realities** (if file paths involved): Windows vs POSIX separators, newline handling.
-6. **Determinism**: outputs should be consistent across runs.
+4. State/mutation/idempotency effects if present.
+5. External state interactions if present (fs/env/time/randomness).
+6. Correct handling of common platform-specific differences.
 
 #### C) Negative testing discipline
 
