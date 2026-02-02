@@ -1,6 +1,6 @@
 https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697fb4b4-6564-8386-bc9d-284b1824eb07
 
-## Prompt: `CREATE_TEST_SUITE_TASK`
+## CREATE_TEST_SUITE_TASK
 
 You are tasked with **creating or extending** a **comprehensive `pytest` test suite** for a specified Python module.
 

@@ -1,29 +1,78 @@
-# Development Strategy
+# Development Strategy (DEV_STRATEGY.md)
 
 ## Core Principles
 
-* **Layered design**: parsing, evaluation engine, and user interface are strictly decoupled.
-* **Feasibility probes first**: early components may be intentionally minimal or "dumb" to validate integration paths and contracts.
-* **Explicit contracts**: each module exposes a narrow, well-defined interface.
-* **Test-driven evolution**: behavior is locked in with tests before refinement.
-* **No speculative behavior**: undefined or ambiguous behavior is deferred, not guessed.
-* **Incremental evolution**: treat all code and assumptions as tentative, prioritize clarity and reversibility
+- **Layered design**  
+    Parsing, evaluation engine, and user interface are strictly decoupled. Each layer owns a single responsibility and communicates only through explicit contracts.
+- **Feasibility probes first**  
+    Early components may be intentionally minimal, incomplete, or "dumb" in order to validate integration paths, contracts, and evolution strategies before committing to complexity.
+- **Explicit contracts**  
+    Every module exposes a narrow, well-defined interface. Contracts are stabilized before internal sophistication is increased.
+- **Test-driven evolution**  
+    Behavior is locked in with tests before refinement or extension. Tests define what is known and intentionally leave undefined behavior unspecified.
+- **No speculative behavior**  
+    Undefined, ambiguous, or controversial behavior is deferred. The system must not guess, infer intent, or silently enforce "best practices" not explicitly encoded.
+- **Incremental evolution**  
+    Treat all code and assumptions as tentative. Prioritize clarity, reversibility, and refactorability over completeness or elegance.
+
+---
 
 ## Development Mode
 
-* Start with **absolute-minimum implementations** that cannot fail structurally.
-* Gradually replace probes with stricter, validated implementations.
-* Refactoring is expected and encouraged once contracts are stabilized.
+- Start with **absolute-minimum implementations** that cannot fail structurally.
+- Prefer total, side-effect-free routines in early stages.
+- Gradually replace probes with stricter, validated implementations as contracts stabilize.
+- Refactoring is expected and encouraged once behavior is fixed by tests.
+
+---
 
 ## Feasibility Probes (FPs)
 
-- Design probes for
-    - High risk essential code to retire risks early.
-    - Low risk code to implement gradual evolution of complex logic.
-- Prefer adding a potentially low value FP to omitting a medium value FP.
-- Treat FPs as stepping stones toward complex logic.
-- Place FPs in separate companion modules next to target modules with `_fp` suffix (e.g., `parser_fp` or `engine_fp`).
-- Gradually transform minimalistic code in FPs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
-- When introducing new or extending existing features/functionality or considering alternative implementations, prefer adding new feasibility probes to the companion `_fp` module, testing them, possibly performing early evolution. Once a particular implementation is selected via probing/testing, the code can be transferred/refactored into the production module (without `_fp`).
-- When implementing feasibility probes, prefer simple probe routines with descriptive names. For example, for `tokenize` routine in `parser` you might create `tokenize_ws_only` and `tokenize_normalize` in `parser_fp`, testing in `test_parser_fp`, then refactoring `tokenize_ws_only` and `tokenize_normalize` into `tokenize` routine in `parser` and forming `test_parser` test suite from `test_parser_fp`.
+Feasibility probes are a **primary development tool**, not a temporary crutch.
 
+### Purpose
+
+Design feasibility probes to:
+
+- Retire **high-risk, essential uncertainties** as early as possible.
+- Enable **gradual, low-risk evolution** of code that is expected to become complex over time.
+
+Prefer adding a potentially low-value FP over omitting a medium-value FP.
+
+---
+
+### Structural Rules
+
+- Feasibility probes live in **companion modules** collocated with their target modules and suffixed with `_fp` (e.g. `parser_fp.py`, `engine_fp.py`).
+- Production modules (`parser.py`, `engine.py`, …) must not import from `_fp` modules.
+- Probes may be incomplete, permissive, or redundant by design.
+
+---
+
+### Evolution Workflow
+
+- When introducing new functionality, extending existing behavior, or considering alternative implementations:
+    - Prefer adding **new probe routines** to the corresponding `_fp` module.
+    - Write focused tests for probe behavior (e.g. `test_parser_fp.py`).
+    - Use probes to explore contracts, boundaries, and failure modes.
+- Once an implementation strategy is selected:
+    - Transfer or refactor the chosen probe logic into the production module.
+    - Derive the production test suite from the probe tests.
+    - Retain unused probes for historical context unless explicitly retired.
+
+---
+
+### Probe Design Guidelines
+
+- Prefer **small, single-purpose probe routines** with descriptive names.
+- Avoid embedding policy or interpretation unless explicitly being probed.
+- Keep probes side-effect free whenever possible.
+
+**Example (parser evolution):**
+
+- Implement `tokenize_ws_only` and `tokenize_normalize` in `parser_fp.py`.
+- Test them in `test_parser_fp.py`.
+- Promote the selected behavior into `parser.tokenize`.
+- Form `test_parser.py` by refining the corresponding probe tests.
+
+---
