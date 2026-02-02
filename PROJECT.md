@@ -26,10 +26,15 @@ The concrete artifact is a **Reverse Polish Notation (RPN) calculator**, but cor
 * Gradually replace probes with stricter, validated implementations.
 * Refactoring is expected and encouraged once contracts are stabilized.
 
-#### Feasibility Probes
+#### Feasibility Probes (FBs)
 
-- Place feasibility probes in separate modules next to target modules with `_fb` suffix (e.g., `parser_fb` or `engine_fb`).
-- Gradually transform minimalistic code in feasibility probes by extending and refactoring as appropriate into code to be included in subsequent prototypes.
+- Design probes for
+    - High risk essential code to retire risks early.
+    - Low risk code to implement gradual evolution of complex logic.
+- Prefer adding a potentially low value FB to omitting a medium value FB.
+- Treat FBs as stepping stones toward complex logic.
+- Place FBs in separate modules next to target modules with `_fb` suffix (e.g., `parser_fb` or `engine_fb`).
+- Gradually transform minimalistic code in FBs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
 
 ---
 
