@@ -27,3 +27,19 @@ def tokenize_ws_only(text: str = "") -> list[str]:
     # str(...) is the lowest-friction "total" conversion in Python.
     # Using split() (no sep) collapses runs of whitespace and strips edges.
     return str(text).split()
+
+
+def tokenize(text: str = "") -> list[str]:
+    """Return whitespace-delimited tokens with zero validation.
+
+    This is the current feasibility-probe tokenizer used by tests. It is a thin
+    wrapper around the whitespace-only implementation to keep the contract
+    stable while naming evolves.
+
+    Args:
+      text: Value to tokenize.
+
+    Returns:
+      List of tokens (possibly empty).
+    """
+    return tokenize_ws_only(text)
