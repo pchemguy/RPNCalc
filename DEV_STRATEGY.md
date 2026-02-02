@@ -6,3 +6,20 @@
 * **Test-driven evolution**: behavior is locked in with tests before refinement.
 * **No speculative behavior**: undefined or ambiguous behavior is deferred, not guessed.
 * **Incremental evolution**: treat all code and assumptions as tentative, prioritize clarity and reversibility
+
+### Development Mode
+
+* Start with **absolute-minimum implementations** that cannot fail structurally.
+* Gradually replace probes with stricter, validated implementations.
+* Refactoring is expected and encouraged once contracts are stabilized.
+
+### Feasibility Probes (FPs)
+
+- Design probes for
+    - High risk essential code to retire risks early.
+    - Low risk code to implement gradual evolution of complex logic.
+- Prefer adding a potentially low value FP to omitting a medium value FP.
+- Treat FPs as stepping stones toward complex logic.
+- Place FPs in separate companion modules next to target modules with `_fp` suffix (e.g., `parser_fp` or `engine_fp`).
+- Gradually transform minimalistic code in FPs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
+- When introducing new or extending existing features/functionality, prefer adding a new 
