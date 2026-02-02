@@ -27,7 +27,7 @@ ruff check --fix "{path/to/dir}"
 Before writing or modifying any files, you must:
 
 1. Read and operationalize root `AGENTS.md` (this file), and any additional referenced files (follow any local references).
-2. Read any existing `README.md`, `DESIGN.md`, and `ARCHITECTURE.md` at the repo root.
+2. Read any existing `README.md`, `DESIGN.md`, `ARCHITECTURE.md`, `PLAN.md`, and `PROJECT.md` at the repo root.
 3. Locate and read `pyproject.toml`  at repo root.
 4. Determine package name (`<package_name>`)
     * `[project]`
