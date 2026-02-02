@@ -71,11 +71,25 @@ def test_tokenize_none_current_behavior() -> None:
     assert tokens == ["None"]
 
 
-def test_tokenize_bytes_string_representation() -> None:
-    """Bytes are coerced to their repr-like str value."""
-    tokens = tokenize(b"1 2")
+@pytest.mark.parametrize(
+    ("value", "expected"),
+    [
+        # Simple space separation
+        (b"1 2", ["b'1", "2'"]),
+        # Other whitespace characters are escaped in the repr, not treated as delimiters
+        (b"3\t4\n+", ["b'3\\t4\\n+'"]),
+        # Whitespace in the repr from leading/trailing spaces in bytes is split on
+        (b" 7 8 * ", ["b'", "7", "8", "*", "'"]),
+    ],
+)
+def test_tokenize_bytes_string_representation(
+    value: bytes,
+    expected: list[str],
+) -> None:
+    """Bytes are coerced to their repr-like str value, which can lead to surprising tokenization."""
+    tokens = tokenize(value)
 
-    assert tokens == ["b'1", "2'"]
+    assert tokens == expected
 
 
 def test_tokenize_repeated_calls_are_deterministic() -> None:
