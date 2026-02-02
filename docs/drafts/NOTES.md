@@ -116,14 +116,14 @@ rpncalc/
 
 * **engine**: pure logic (stack, operators, evaluation). No printing.
 * **parser**: tokenization + numeric conversion + normalization rules.
-* **cli**: REPL loop, error presentation, “graceful recovery”.
+* **cli**: REPL loop, error presentation, "graceful recovery".
 * **exceptions**: one place for your error taxonomy.
 
 This lets you practice: isolated unit tests (engine/parser) + higher-level tests (cli).
 
 ---
 
-## Define “semantics” now (resolves your TBDs)
+## Define "semantics" now (resolves your TBDs)
 
 ### Tokens & parsing
 
@@ -159,7 +159,7 @@ Raise `StackUnderflowError(op='+', needed=2, have=1)`.
 **Do not round in the engine.** Return Python floats as-is.
 
 * UI can offer optional formatting (e.g., `--precision 10`) later.
-  This cleanly separates “math correctness” from “display policy”.
+  This cleanly separates "math correctness" from "display policy".
 
 ### Unary operators
 
@@ -220,7 +220,7 @@ This also makes it trivial to add `undo`, `sqrt`, etc.
 
 ## Prototype-driven workflow (what to practice)
 
-### Prototype 0 — skeleton + “red tests”
+### Prototype 0 — skeleton + "red tests"
 
 **Deliverables**
 
@@ -260,7 +260,7 @@ This also makes it trivial to add `undo`, `sqrt`, etc.
 
 **Tests**
 
-* “smoke” test using `subprocess` (or keep it minimal and test the REPL loop via dependency injection of input/output streams).
+* "smoke" test using `subprocess` (or keep it minimal and test the REPL loop via dependency injection of input/output streams).
 
 ### Prototype 3 — extendability exercise
 
