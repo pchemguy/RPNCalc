@@ -15,7 +15,7 @@ You are tasked with **creating or extending** a **comprehensive `pytest` test su
 >
 > You must infer everything else by reading the repository files.
 
-**TARGET**: `rpncalc/src/rpncalc/parser_fb.py`
+**TARGET**: `rpncalc/src/rpncalc/parser_fp.py`
 
 ---
 

@@ -26,15 +26,15 @@ The concrete artifact is a **Reverse Polish Notation (RPN) calculator**, but cor
 * Gradually replace probes with stricter, validated implementations.
 * Refactoring is expected and encouraged once contracts are stabilized.
 
-#### Feasibility Probes (FBs)
+#### Feasibility Probes (FPs)
 
 - Design probes for
     - High risk essential code to retire risks early.
     - Low risk code to implement gradual evolution of complex logic.
-- Prefer adding a potentially low value FB to omitting a medium value FB.
-- Treat FBs as stepping stones toward complex logic.
-- Place FBs in separate modules next to target modules with `_fb` suffix (e.g., `parser_fb` or `engine_fb`).
-- Gradually transform minimalistic code in FBs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
+- Prefer adding a potentially low value FP to omitting a medium value FP.
+- Treat FPs as stepping stones toward complex logic.
+- Place FPs in separate companion modules next to target modules with `_fp` suffix (e.g., `parser_fp` or `engine_fp`).
+- Gradually transform minimalistic code in FPs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
 
 ---
 
@@ -51,15 +51,15 @@ rpncalc/
     __init__.py
     exceptions.py
     engine.py
-    engine_fb.py
+    engine_fp.py
     parser.py
-    parser_fb.py
+    parser_fp.py
     cli.py
   tests/
     test_engine.py
-    test_engine_fb.py
+    test_engine_fp.py
     test_parser.py
-    test_parser_fb.py
+    test_parser_fp.py
     test_cli_smoke.py
 ```
 
