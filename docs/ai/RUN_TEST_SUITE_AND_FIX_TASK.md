@@ -23,6 +23,7 @@ When tests fail:
 
 1. **Group failures by root cause**, not by test name.
 2. For each root cause, identify whether it is:
+    * a test consistency bug due to refactored code
     * a test bug (incorrect assumption, brittle assertion, wrong import path, order dependence)
     * a production bug (actual incorrect behavior)
     * an environment/config issue (missing dependency, path misconfig, wrong test discovery)
