@@ -26,29 +26,30 @@ ruff check --fix "{path/to/dir}"
 
 Before writing or modifying any files, you must:
 
-1. Read and operationalize `AGENTS.md` (this file), and any additional referenced files (follow any local references).
-2. Locate and read `pyproject.toml`  at repo root.
-3. Determine package name (`<package_name>`)
+1. Read and operationalize root `AGENTS.md` (this file), and any additional referenced files (follow any local references).
+2. Read any existing `README.md`, `DESIGN.md`, and `ARCHITECTURE.md` at the repo root.
+3. Locate and read `pyproject.toml`  at repo root.
+4. Determine package name (`<package_name>`)
     * `[project]`
     * `name`
-4. Determine pytest configuration:
+5. Determine pytest configuration:
     * `[tool.pytest.ini_options]`
     * `testpaths`, markers, plugins
-5. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) relative to repo root matches one of the the patterns:
+6. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) relative to repo root matches one of the the patterns:
     * `tests`
     * `<package_name>/tests`
-6. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) already exists (it must exist).
-7. Determine source layout (one of):
+7. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) already exists (it must exist).
+8. Determine source layout (one of):
     - `<package_name>`
     - `src/<package_name>`
     - `<package_name>/src/<package_name>`
-8. Check if this value from `pyproject.toml`, if present, is consistent with determined source layout: 
+9. Check if this value from `pyproject.toml`, if present, is consistent with determined source layout: 
     - `[tool.hatch.build.targets.wheel]`
     - `packages`
-9. Locate existing testing infrastructure:
+10. Locate existing testing infrastructure:
     * `pytest.ini`, `conftest.py`
     * shared fixtures or helpers
-10. Determine how tests are intended to be executed in this repository.
+11. Determine how tests are intended to be executed in this repository.
 
 If any of the above cannot be determined, stop and report what is missing.
 
