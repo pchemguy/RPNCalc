@@ -212,6 +212,7 @@ You must not:
 * delete tests to make the suite pass
 * weaken assertions without replacing them with equally meaningful assertions
 * introduce speculative behavior not evidenced by code/docs
+* introducing new alias entry points (e.g., adding `foo = bar` or `def foo(): return bar()`) intended primarily to satisfy failing imports/calls
 * apply compatibility hacks (dummy imports, alias re-exports, blanket `try/except`) to silence failures
 * silence failures by catching broad exceptions or suppressing warnings unless repo docs require it
 * change unrelated files
