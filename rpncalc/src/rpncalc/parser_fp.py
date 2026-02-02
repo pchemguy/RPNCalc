@@ -9,12 +9,12 @@ used to validate parsing contracts and guide evolutionary development.
 from __future__ import annotations
 
 
-def tokenize(text: str = "") -> list[str]:
+def tokenize_ws_only(text: str = "") -> list[str]:
     """Return whitespace-delimited tokens with zero validation.
 
     Feasibility-probe parser:
-    - Accepts any input value.
-    - Converts to string ("" if None).
+    - Accepts string input value.
+    - No-op on empty string or None
     - Splits on arbitrary ASCII whitespace (like str.split()).
     - Never raises for malformed/unknown tokens (no validation performed).
 

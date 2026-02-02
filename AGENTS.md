@@ -22,13 +22,44 @@ ruff check "{path/to/dir}"
 ruff check --fix "{path/to/dir}"
 ```
 
+## Sample Repo Structure
+
+```
+<package_name>/
+  src/<package_name>/
+    __init__.py
+    exceptions.py
+    engine.py
+    engine_fp.py
+    parser.py
+    parser_fp.py
+    cli.py
+  tests/
+    test_engine.py
+    test_engine_fp.py
+    test_parser.py
+    test_parser_fp.py
+    test_cli_smoke.py
+pyproject.toml
+AGENTS.md
+DEV_STRATEGY.md
+PROJECT.md
+README.md 
+```
+
 ## Mandatory Repo Discovery Steps
 
 Before writing or modifying any files, you must:
 
 1. Read and operationalize root `AGENTS.md` (this file), and any additional referenced files (follow any local references).
-2. Read any existing `README.md`, `DESIGN.md`, `ARCHITECTURE.md`, `PLAN.md`, and `PROJECT.md` at the repo root.
-3. Locate and read `pyproject.toml`  at repo root.
+2. Read any existing (at the repo root):
+    - README.md
+    - DESIGN.md
+    - ARCHITECTURE.md
+    - DEV_STRATEGY.md
+    - PLAN.md
+    - PROJECT.md
+3. Locate and read `pyproject.toml`  at the repo root.
 4. Determine package name (`<package_name>`)
     * `[project]`
     * `name`
