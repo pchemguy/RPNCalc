@@ -51,49 +51,49 @@ README.md
 
 Before writing or modifying any files, you must:
 
-1. Read and operationalize root `AGENTS.md` (this file), and any additional referenced files (follow any local references).
-2. Read any existing (at the repo root):
-    - README.md
-    - DESIGN.md
-    - ARCHITECTURE.md
-    - DEV_STRATEGY.md
-    - PLAN.md
-    - PROJECT.md
-3. Locate and read `pyproject.toml`  at the repo root.
-4. Determine package name (`<package_name>`)
+1. Read and operationalize
+    - root `AGENTS.md` (this file)
+    - any existing files at repo root:
+        - README.md
+        - DESIGN.md
+        - ARCHITECTURE.md
+        - DEV_STRATEGY.md
+        - PLAN.md
+        - PROJECT.md
+    - additional referenced files.
+2. Locate and read `pyproject.toml`  at the repo root.
+3. Determine package name (`<package_name>`)
     * `[project]`
     * `name`
-5. Determine pytest configuration:
+4. Determine pytest configuration:
     * `[tool.pytest.ini_options]`
     * `testpaths`, markers, plugins
-6. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) relative to repo root matches one of the the patterns:
-    * `tests`
-    * `<package_name>/tests`
-7. Confirm pytest `tests` directory path (as determined from `pyproject.toml`) already exists (it must exist).
-8. Determine source layout (one of):
+5. Confirm `testpaths` resolves to an **existing directory** relative to repo root.
+6. Determine source layout (one of):
     - `<package_name>`
     - `src/<package_name>`
     - `<package_name>/src/<package_name>`
-9. Check if this value from `pyproject.toml`, if present, is consistent with determined source layout: 
+7. Check if this value from `pyproject.toml`, if present, is consistent with determined source layout: 
     - `[tool.hatch.build.targets.wheel]`
     - `packages`
-10. Locate existing testing infrastructure:
+8. Locate existing testing infrastructure:
     * `pytest.ini`, `conftest.py`
     * shared fixtures or helpers
-11. Determine how tests are intended to be executed in this repository.
+9. Determine how tests are intended to be executed in this repository.
 
-If any of the above cannot be determined, stop and report what is missing.
-
+**If required files are inaccessible** → agent must stop further task processing, output “BLOCKED” + list missing artifacts.
+**If files exist but are ambiguous** → agent must proceed with the *repo's dominant convention* and explicitly state assumptions.
 
 ## Editing Constraints
 
 ### Character Set
 
-**ASCII only**: When editing or creating files:
+Prefer ASCII when editing or creating files:
 
 * Use English names for units and symbols (for example, `deg`, `alpha`).
 * Use ASCII quotes and dashes exclusively.
-* Applies to code, comments, docstrings, and Markdown.
+* Strictly applies to code, comments, and docstrings within code modules.
+* Only use non-ASCII in Markdown, when there is no a common ASCII equivalent and using non-ASCII is justified (e.g., when using border chars for schematics).
 * Do not globally normalize existing files unless explicitly instructed.
 * When editing a block containing non-ASCII characters, replace them with ASCII equivalents where reasonable.
 
