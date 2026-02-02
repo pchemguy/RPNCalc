@@ -45,7 +45,7 @@ Return:
 4. **Changes made**
     * files changed and why (brief, factual)
 5. **Verification**
-    * confirmation that `pytest -v` from repo root passes
+    * confirmation that full test suite from repo root passes
 
 ---
 

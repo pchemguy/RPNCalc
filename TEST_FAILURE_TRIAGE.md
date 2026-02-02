@@ -152,7 +152,7 @@ For missing or failing **local project imports**, do **not** immediately modify 
 #### B) Identifier-Level Resolution
 
 - If the module exists but the imported identifier does not:
-    - Examine recent commits, including diff's, to determine whether it was:
+    - Examine recent commits, including full diff's, to determine whether it was:
         - renamed,
         - split or merged,
         - intentionally removed.
@@ -166,13 +166,13 @@ Consult:
 - module docstrings
 - documented naming or refactoring guidelines
 
-Infer intended refactoring or naming schemes only from these sources.
-
 #### D) Fix Selection Rule
 
+- Infer intended refactoring or naming schemes only from these sources (2.4.A-C).
 - If a likely refactor or rename can be determined with **high confidence**:
     - update **test code** to match the new structure.
     - do **not** add compatibility aliases, dummy exports, or shim imports.
+    - output specific evidences (doc sections, commit messages, relevant patches) supporting refactoring-related culprit.
 - If intent is unclear, conflicting, or cannot be determined within a bounded analysis effort:
     - abort and produce a detailed ambiguity report.
 
