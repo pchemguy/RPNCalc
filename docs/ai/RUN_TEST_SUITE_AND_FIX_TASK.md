@@ -1,6 +1,6 @@
 https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697fb4b4-6564-8386-bc9d-284b1824eb07
 
-## RUN_TEST_SUITE_TASK
+## RUN_TEST_SUITE_AND_FIX_TASK
 
 You are tasked with **running the repository test suite** (or a targeted subset) using `pytest`, diagnosing failures, and applying the **minimum safe changes** needed to reach a clean pass, while strictly following repository rules.
 
