@@ -6,7 +6,7 @@ from dataclasses import dataclass
 
 import pytest
 
-from rpncalc.parser_fb import tokenize
+from rpncalc.parser_fp import tokenize
 
 
 @dataclass(frozen=True)
