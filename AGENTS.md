@@ -12,6 +12,7 @@ https://chatgpt.com/c/69746329-5974-832f-b661-88ceaf5c57cc
 
 - Run `pytest -v` from the repository root 
 * Use standard pytest options for selective runs or debugging (e.g., `pytest -v <test_file.py>`).
+* Triage and resolve all test failures according to `TEST_FAILURE_TRIAGE.md`
 * Resolve all failures before considering the task complete.
 
 ### Formatting
@@ -44,6 +45,7 @@ pyproject.toml
 AGENTS.md
 DEV_STRATEGY.md
 PROJECT.md
+TEST_FAILURE_TRIAGE.md
 README.md 
 ```
 
@@ -60,6 +62,7 @@ Before writing or modifying any files, you must:
         - DEV_STRATEGY.md
         - PLAN.md
         - PROJECT.md
+        - TEST_FAILURE_TRIAGE.md
     - additional referenced files.
 2. Locate and read `pyproject.toml`  at the repo root.
 3. Determine package name (`<package_name>`)

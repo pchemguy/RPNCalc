@@ -4,7 +4,7 @@ https://chatgpt.com/g/g-p-697ef0e4c8ec8191bbf0acac1fa069a8-rpncalc/c/697fb4b4-65
 
 ## Purpose
 
-This document defines the **mandatory, deterministic procedure** for analyzing and resolving test failures in this repository.
+This document defines the mandatory procedure for analyzing and resolving test failures in this repository.
 
 Its goals are to:
 
