@@ -1,10 +1,9 @@
 # parser_fp.py
 
-"""Feasibility probes for parser.py
+"""Feasibility probes for parser.py.
 
-This module contains minimalistic code snippets implementing feasibility
-probes for parser.py. Routines are intentionally dumb and side-effect free.
-
+This module contains intentionally minimal, side-effect-free routines
+used to validate parsing contracts and guide evolutionary development.
 """
 
 from __future__ import annotations
