@@ -46,7 +46,6 @@ The concrete artifact is a **Reverse Polish Notation (RPN) calculator**, but cor
 
 ```
 rpncalc/
-  pyproject.toml
   src/rpncalc/
     __init__.py
     exceptions.py
@@ -61,6 +60,10 @@ rpncalc/
     test_parser.py
     test_parser_fp.py
     test_cli_smoke.py
+pyproject.toml
+AGENTS.md
+PROJECT.md
+README.md 
 ```
 
 **Layering**
