@@ -4,37 +4,12 @@ This project is a **learning and practice vehicle** for AI-assisted Python devel
 
 The concrete artifact is a **Reverse Polish Notation (RPN) calculator**, but correctness alone is not the primary goal. The primary objective is to practice **systematic development workflows**: isolating risk, validating assumptions early, enforcing clean layering, and evolving prototypes without premature over-engineering.
 
-### Core Principles
-
-* **Layered design**: parsing, evaluation engine, and user interface are strictly decoupled.
-* **Feasibility probes first**: early components may be intentionally minimal or "dumb" to validate integration paths and contracts.
-* **Explicit contracts**: each module exposes a narrow, well-defined interface.
-* **Test-driven evolution**: behavior is locked in with tests before refinement.
-* **No speculative behavior**: undefined or ambiguous behavior is deferred, not guessed.
-* **Incremental evolution**: treat all code and assumptions as tentative, prioritize clarity and reversibility
-
 ### Architecture (Target, but evolves incrementally)
 
 * `parser`: transforms raw input into token lists (initially minimal, total, non-validating).
 * `engine`: pure stack-based evaluation logic with operator dispatch.
 * `exceptions`: explicit error taxonomy (introduced only when behavior is defined).
 * `cli`: interactive loop with graceful recovery and persistent state.
-
-### Development Mode
-
-* Start with **absolute-minimum implementations** that cannot fail structurally.
-* Gradually replace probes with stricter, validated implementations.
-* Refactoring is expected and encouraged once contracts are stabilized.
-
-#### Feasibility Probes (FPs)
-
-- Design probes for
-    - High risk essential code to retire risks early.
-    - Low risk code to implement gradual evolution of complex logic.
-- Prefer adding a potentially low value FP to omitting a medium value FP.
-- Treat FPs as stepping stones toward complex logic.
-- Place FPs in separate companion modules next to target modules with `_fp` suffix (e.g., `parser_fp` or `engine_fp`).
-- Gradually transform minimalistic code in FPs by extending and refactoring as appropriate into code to be included in subsequent prototypes.
 
 ---
 
