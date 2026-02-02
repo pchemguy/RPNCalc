@@ -152,7 +152,7 @@ For missing or failing **local project imports**, do **not** immediately modify 
 #### B) Identifier-Level Resolution
 
 - If the module exists but the imported identifier does not:
-    - Examine recent commits to determine whether it was:
+    - Examine recent commits, including diff's, to determine whether it was:
         - renamed,
         - split or merged,
         - intentionally removed.
