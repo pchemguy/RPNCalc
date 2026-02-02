@@ -194,13 +194,35 @@ For failures not related to imports:
 
 ---
 
-## 4. Global Constraints on Fixes
+## 4. Global Constraints on Fixes (all failure types)
 
-Across all failure types:
+### 4.1 Allowed modifications
 
-- Prefer updating **tests** when failures are caused by refactors or contract changes.
-- Prefer updating **source code** only when tests correctly encode documented behavior.
-- Never apply compatibility hacks (dummy imports, alias re-exports, blanket `try/except`) to silence failures.
+You may modify:
+
+* failing test files, when failures are caused by refactors or contract changes or clear test logic failure
+* the source module(s) under test, when tests correctly encode documented behavior
+* shared test utilities (`conftest.py`, helpers) only if it reduces duplication or fixes a systematic issue
+* configuration only if the failure is clearly caused by misconfiguration and the intended config is evident from repo docs
+
+### 4.2 Prohibited modifications
+
+You must not:
+
+* delete tests to make the suite pass
+* weaken assertions without replacing them with equally meaningful assertions
+* introduce speculative behavior not evidenced by code/docs
+* apply compatibility hacks (dummy imports, alias re-exports, blanket `try/except`) to silence failures
+* silence failures by catching broad exceptions or suppressing warnings unless repo docs require it
+* change unrelated files
+
+### 4.3 Working tree safety
+
+Assume the working tree may be dirty:
+
+* Do not discard unrelated changes.
+* Touch the smallest set of files needed.
+* If you detect unexpected changes that affect your ability to reason safely, stop and report.
 
 ---
 
