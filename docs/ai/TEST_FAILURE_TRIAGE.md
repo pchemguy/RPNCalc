@@ -1,14 +1,37 @@
-## 3. Failure triage workflow (strict, expanded)
+# TEST_FAILURE_TRIAGE.md
 
-When tests fail, you must perform **systematic triage** before making any code or configuration changes. No fixes may be applied until all failures have been classified and analyzed according to the rules below.
+## Purpose
+
+This document defines the **mandatory, deterministic procedure** for analyzing and resolving test failures in this repository.
+
+Its goals are to:
+
+- prevent speculative or "make-it-pass" fixes,
+- enforce analysis-before-mutation,
+- distinguish dependency issues from local refactors,
+- and ensure minimal, reversible changes.
+
+All tasks that involve running or fixing tests must follow this procedure.
 
 ---
 
-### 3.1 Classify failures by root cause
+## General Rule
 
-Group failures by **underlying cause**, not by test name or traceback surface.
+When tests fail, **no code or configuration changes may be made** until all failures have been classified and analyzed according to this document.
 
-At minimum, classify each failure as one of:
+If a correct fix cannot be determined with high confidence, the task must **abort and report**. If the task must be aborted, you must still:
+
+- analyze all failures,
+- identify which failures are likely fixable automatically,
+- and produce a detailed report.
+
+---
+
+## 1. Failure Classification
+
+Group failures by **underlying root cause**, not by test name or traceback surface.
+
+Each failure must be classified as one of:
 
 - **Import / resolution failure**
 - **Test logic failure**
@@ -19,39 +42,36 @@ Do not proceed to fixes until all failures are classified.
 
 ---
 
-### 3.2 Import and resolution failure analysis (mandatory, first)
+## 2. Import and Resolution Failures (mandatory, first)
 
-If any failure involves `ImportError`, `ModuleNotFoundError`, `NameError` related to imports, or unresolved symbols, this section **must be applied first**.
+If any failure involves:
+
+- `ImportError`
+- `ModuleNotFoundError`
+- `NameError` related to imports
+- unresolved symbols
+
+this section **must be applied first**.
 
 ---
 
-#### 3.2.1 Determine import type
+### 2.1 Determine Import Type
 
 For each failing import or unresolved symbol, determine whether it is:
 
 1. **Missing standard-library import**
-    - Example: `os.path.exists(...)` used without `import os`
 2. **External dependency import**
-    - Example: `import numpy`, `from rich.console import Console`
 3. **Local project import**
-    - Example: `from rpncalc.engine import Calculator`
-    - Example: `from .parser import tokenize`
 
-Proceed according to the corresponding branch below.
-
-Important: if the task must be aborted, you must still:
-
-- complete analysis of **all failed tests**,
-- identify which failures are likely fixable automatically,
-- and produce a detailed report covering all findings.
+Proceed according to the corresponding section below.
 
 ---
 
-#### 3.2.2 Missing standard-library imports
+### 2.2 Missing Standard-Library Imports
 
-This category applies **only** when a failure is caused by a missing `import` statement for a Python standard-library module that is referenced by the code.
+This applies **only** when a Python standard-library module is referenced but not imported.
 
-Procedure:
+#### Procedure
 
 1. Confirm that the referenced module is part of the Python standard library:
     - Verify by inspecting the failing source code and existing imports.
@@ -61,20 +81,27 @@ Procedure:
     - Follow existing import style in the file (module-level imports, ordering, etc.).
 3. Re-run the failing scope to confirm the issue is resolved.
 
-Reclassification rule: If the referenced module is **not** part of the standard library, reclassify the failure as an **external dependency import** and proceed to 3.2.3.  
-Abort rule: If stdlib status cannot be determined unambiguously using repository contents, produce a detailed analysis and abort the task.
+#### Reclassification Rule
 
-Abort report must include:
+If the referenced module is **not** part of the standard library, reclassify the failure as an **external dependency import** and proceed to section 2.3.
 
-- the failing import or symbol
-- file and line numbers where it is referenced
-- why stdlib status could not be confirmed locally
+#### Abort Rule
+
+If stdlib status cannot be determined unambiguously using repository contents:
+
+- abort the task,
+- produce a detailed analysis, including
+    - unresolved symbol or module name,
+    - file(s) and line(s) where it is referenced,
+    - reason stdlib status could not be confirmed.
 
 ---
 
-#### 3.2.3 External dependency imports
+### 2.3 External Dependency Imports
 
-For failures caused by missing **external dependencies**:
+For failures caused by missing external dependencies:
+
+#### Procedure
 
 1. Determine whether the dependency can be **unambiguously identified** using repository contents:
     - clear mapping from import name to package name, or
@@ -96,40 +123,39 @@ For failures caused by missing **external dependencies**:
         - reason ambiguity cannot be resolved locally
     - Abort the task without making speculative changes.
 
-Internet access rules:
+#### Internet Access Rules
 
-- If the agent **does not have Internet access** and dependency identity cannot be confirmed locally:
-    - Produce a detailed analysis and abort the task.
-- If the agent **has Internet access** and all missing dependencies can be unambiguously identified:
-    - Add them to `pyproject.toml`.
-    - Continue the task.
+- If Internet access is unavailable and dependency identity cannot be confirmed:
+    - abort and report.
+- If Internet access is available and dependency can be unambiguously identified:
+    - add it to `pyproject.toml` and continue.
 - If ambiguity remains after best effort:
-    - Abort and report.
+    - abort and report.
 
 ---
 
-#### 3.2.4 Local project imports
+### 2.4 Local Project Imports
 
-For missing or failing **local project imports**, the agent must **not** immediately modify source code to silence the failure. Instead, perform the following analysis:
+For missing or failing **local project imports**, do **not** immediately modify source code to silence the failure.
 
-##### A) File-level resolution
+#### A) File-Level Resolution
 
-- Verify whether the imported module file exists in the current source tree.
-- If the file does not exist:
+- Verify whether the imported module file exists.
+- If it does not exist:
     - Examine a limited, recent commit window to determine whether the file was:
         - renamed,
         - moved,
         - intentionally removed.
 
-##### B) Identifier-level resolution
+#### B) Identifier-Level Resolution
 
 - If the module exists but the imported identifier does not:
-    - Examine recent commits affecting that module to determine whether:
-        - the identifier was renamed,
-        - functionality was split or merged,
-        - the identifier was intentionally removed.
+    - Examine recent commits to determine whether it was:
+        - renamed,
+        - split or merged,
+        - intentionally removed.
 
-##### C) Documentation and policy alignment
+#### C) Documentation and Policy Alignment
 
 Consult:
 
@@ -138,20 +164,19 @@ Consult:
 - module docstrings
 - documented naming or refactoring guidelines
 
-Use these sources to infer **intended naming or refactoring schemes**.
+Infer intended refactoring or naming schemes only from these sources.
 
-##### D) Fix selection rule
+#### D) Fix Selection Rule
 
 - If a likely refactor or rename can be determined with **high confidence**:
-    - Update the **test code** to match the new structure.
-    - Do **not** add compatibility aliases, dummy exports, or shim imports to source code.
+    - update **test code** to match the new structure.
+    - do **not** add compatibility aliases, dummy exports, or shim imports.
 - If intent is unclear, conflicting, or cannot be determined within a bounded analysis effort:
-    - Produce a detailed ambiguity report.
-    - Abort the task.
+    - abort and produce a detailed ambiguity report.
 
 ---
 
-### 3.3 Non-import failures
+## 3. Non-Import Failures
 
 For failures not related to imports:
 
@@ -167,7 +192,7 @@ For failures not related to imports:
 
 ---
 
-### 3.4 Global constraints on fixes
+## 4. Global Constraints on Fixes
 
 Across all failure types:
 
@@ -175,11 +200,17 @@ Across all failure types:
 - Prefer updating **source code** only when tests correctly encode documented behavior.
 - Never apply compatibility hacks (dummy imports, alias re-exports, blanket `try/except`) to silence failures.
 
-If a correct fix cannot be determined confidently, **abort and report**.
+---
 
-Abort mode:
+## 5. Abort Mode
 
-- Do not modify code or configuration.
-- Produce analysis only.
+If a correct fix cannot be determined confidently:
+
+- do not modify code or configuration,
+- produce analysis only,
+- report:
+    - classified failures,
+    - likely fixable issues,
+    - issues requiring human intervention.
 
 ---
