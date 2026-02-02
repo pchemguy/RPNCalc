@@ -6,14 +6,16 @@ You are tasked with **creating or extending** a **comprehensive `pytest` test su
 
 ## 0. Inputs
 
-You will be provided:
+> You will be provided:
+>
+> * **Target module path** (one of):
+>   * a local file path (e.g., `rpncalc/src/rpncalc/parser.py`), or
+>   * a GitHub repo path reference using the same repository-relative format.
+> * Optionally, a short note describing intended behavior.
+>
+> You must infer everything else by reading the repository files.
 
-* **Target module path** (one of):
-    * a local file path (e.g., `rpncalc/src/rpncalc/parser.py`), or
-    * a GitHub repo path reference using the same repository-relative format.
-* Optionally, a short note describing intended behavior.
-
-You must infer everything else by reading the repository files.
+**TARGET**: `rpncalc/src/rpncalc/parser_fb.py`
 
 ---
 
