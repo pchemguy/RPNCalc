@@ -11,7 +11,7 @@ https://chatgpt.com/c/69746329-5974-832f-b661-88ceaf5c57cc
 ### Testing
 
 - Run `pytest -v` from the repository root 
-* Use standard pytest options for selective runs or debugging.
+* Use standard pytest options for selective runs or debugging (e.g., `pytest -v <test_file.py>`).
 * Resolve all failures before considering the task complete.
 
 ### Formatting
