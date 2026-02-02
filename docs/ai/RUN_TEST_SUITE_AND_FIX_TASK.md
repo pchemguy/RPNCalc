@@ -31,7 +31,7 @@ Use this loop until clean:
 
 ---
 
-## 4. Output requirements (order matters)
+## 3. Output requirements (order matters)
 
 Return:
 
