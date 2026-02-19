@@ -1,0 +1,15 @@
+name: rpncalc
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - numpy
+  - matplotlib
+  - pytest
+  - pytest-cov
+  - pytest-benchmark
+  - coverage
+  - colorama
+  - jsonschema
+  - pyyaml
+  - pip
