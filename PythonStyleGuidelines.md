@@ -46,6 +46,7 @@ from my_project.module import my_function
     - Prefer double quotes for strings.
     - Use single quotes for strings containing double quotes to avoid escaping characters.
     - Use triple quotes for multi-line strings.
+    - Multi-line f-string literals are strictly prohibited. New line must always be encoded explicitly.
 7. **Comments and Docstrings**  
     - Write clear detailed comments explaining the *why*, not just the *what*.
     - Use structured Google-style docstrings for all functions, classes, and modules.
