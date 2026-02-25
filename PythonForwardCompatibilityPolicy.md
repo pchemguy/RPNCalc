@@ -1,8 +1,6 @@
-## TODO
-
-- provide a one-paragraph ultra-compact compatibility axiom suitable for the very top of your Python Style Guidelines.
-- Convert this into an RFC-style numbered standard (e.g., FC-1, FC-2, etc.)
-- Or compress everything into a one-page formal policy suitable for inclusion directly in a style guide without sectional expansion
+---
+url: https://chatgpt.com/g/g-p-698720f783d8819182dba46c5788315b-tetris/c/699e9baf-aa38-838f-a530-eca1521685af
+---
 
 ## Python Forward Compatibility Policy
 
