@@ -1,3 +1,9 @@
+## TODO
+
+- provide a one-paragraph ultra-compact compatibility axiom suitable for the very top of your Python Style Guidelines.
+- Convert this into an RFC-style numbered standard (e.g., FC-1, FC-2, etc.)
+- Or compress everything into a one-page formal policy suitable for inclusion directly in a style guide without sectional expansion
+
 ## Python Forward Compatibility Policy
 
 ### Synopsis
@@ -32,12 +38,12 @@ Governing documentation, public APIs, and key private architectural boundaries M
 
 When two components interact (module A calls module B; "producer" sends data to "consumer"; "core" talks to "shell"), design so that:
 
-1. **New caller → old callee:** A newer component can call an older component and either:
+1. **New caller -> old callee:** A newer component can call an older component and either:
     * use only baseline features automatically, or
     * detect missing capability and degrade predictably (or fail explicitly).
-2. **Old caller → new callee:** An older component can call a newer component without modification. Newer callee must preserve baseline behavior and default semantics.
-3. **New data → old consumer (if applicable):** Older consumers must either ignore unknown fields safely or reject them with an explicit "unsupported version/capability" error - never silent misinterpretation.
-4. **Old data → new consumer:** New consumers must accept and interpret baseline data without requiring extension fields.
+2. **Old caller -> new callee:** An older component can call a newer component without modification. Newer callee must preserve baseline behavior and default semantics.
+3. **New data -> old consumer (if applicable):** Older consumers must either ignore unknown fields safely or reject them with an explicit "unsupported version/capability" error - never silent misinterpretation.
+4. **Old data -> new consumer:** New consumers must accept and interpret baseline data without requiring extension fields.
 
 This is the minimum interoperability envelope. If you choose to support more (e.g., multi-step negotiations), document it as a project-specific addition.
 
@@ -98,7 +104,7 @@ Allowed:
 Avoid:
 
 * Changing return type shape in a way that breaks destructuring/unpacking.
-* Switching from scalar → container without a compatibility wrapper.
+* Switching from scalar -> container without a compatibility wrapper.
 
 #### 5.3 Data structures and serialized forms
 
@@ -202,15 +208,176 @@ Forward compatibility must not be achieved by weakening typing:
 
 ---
 
-### 11. Testing requirements
+### 11. Testing Requirements
 
-Every compatibility promise requires tests:
+Forward compatibility claims are meaningless without explicit, classified, and enforced test coverage.
 
-* **Baseline conformance tests:** ensure all implementations satisfy baseline contract.
-* **Cross-version tests:** at least:
-    * new caller → old callee (degrade / fail explicitly),
-    * old caller → new callee (baseline preserved).
-* **Unknown-field tests** (for structured data): old consumer behavior when new fields appear.
+Testing MUST validate:
+
+* Baseline contract conformance
+* Cross-version interoperability
+* Extension handling behavior
+* Degradation semantics
+* Unknown-field behavior
+* Capability negotiation logic (if applicable)
+
+---
+
+#### 11.1 Baseline Conformance Tests
+
+Baseline tests MUST:
+
+* Validate only baseline-defined features
+* Avoid relying on extension-specific fields or behavior
+* Fail if baseline semantics change
+
+Baseline tests establish the minimum invariant contract.
+
+These tests:
+
+* MUST pass for all compliant implementations
+* MUST pass regardless of supported extensions
+* MUST NOT assume extension presence
+
+---
+
+#### 11.2 Cross-Version / Cross-Capability Tests
+
+If multiple implementations or contract generations exist, tests MUST include:
+
+1. **New caller -> old callee**
+    * Verify degradation behavior is deterministic
+    * Or verify explicit compatibility error
+2. **Old caller -> new callee**
+    * Verify baseline semantics remain preserved
+    * Verify no unexpected behavioral changes
+
+If capability negotiation exists:
+
+* Test successful negotiation
+* Test partial negotiation
+* Test unsupported capability requests
+
+---
+
+#### 11.3 Unknown-Field / Extension-Field Tests
+
+For structured data contracts:
+
+* Tests MUST verify behavior when:
+    * Unknown fields appear in input
+    * Unknown extension sections appear
+    * Unknown enum variants appear (if allowed)
+
+Expected behavior MUST be explicitly asserted:
+
+* Ignored safely
+* Or rejected deterministically
+
+Silent acceptance without validation is prohibited.
+
+---
+
+#### 11.4 Test Classification: Strict vs Forward-Compatible
+
+All tests that exercise compatibility-sensitive contracts SHOULD declare their compatibility intent.
+
+Tests MUST be classified as one of:
+
+---
+
+##### A. Strict Tests
+
+Strict tests assert baseline-only behavior.
+
+Characteristics:
+
+* May assume absence of extensions
+* May assert exact structure equality
+* May fail if additional fields appear
+* Validate minimal invariant behavior
+
+Strict tests protect:
+
+* Baseline semantics
+* Contract clarity
+* Structural stability
+
+They prevent unintended semantic drift.
+
+---
+
+##### B. Forward-Compatible Tests
+
+Forward-compatible tests assert behavior that must remain valid under additive extensions.
+
+Characteristics:
+
+* Do not assert full structural equality if extension fields are allowed
+* Assert only required baseline invariants
+* Permit additional extension data
+* Remain valid if optional fields are added
+
+Forward-compatible tests protect:
+
+* Additive evolution
+* Extension tolerance
+* Backward-safe expansion
+
+---
+
+#### 11.5 Test Oracles and Compatibility Intent
+
+If the project uses test oracles or structured test specifications:
+
+* Each oracle MUST explicitly declare compatibility intent:
+
+  * `"compatibility_mode": "strict"`
+  * `"compatibility_mode": "forward"`
+
+If no structured oracle system exists:
+
+* Tests SHOULD include explicit markers or naming conventions
+
+  * e.g., `test_xxx_strict`
+  * e.g., `test_xxx_forward_compatible`
+
+Compatibility intent must be visible and reviewable.
+
+Implicit compatibility assumptions are prohibited.
+
+---
+
+#### 11.6 Structural Equality vs Semantic Equality
+
+Tests interacting with extensible contracts MUST prefer semantic assertions over structural equality when forward-compatible behavior is intended.
+
+Avoid:
+
+```python
+assert result == expected_dict
+```
+
+Prefer:
+
+```python
+assert result.required_field == expected_value
+assert result.status == "ok"
+```
+
+unless the test is explicitly marked strict.
+
+---
+
+#### 11.7 Compatibility Regression Protection
+
+If a project claims forward compatibility support:
+
+* Removing a capability MUST require updating compatibility tests.
+* Tightening unknown-field rejection MUST require test updates.
+* Modifying degradation behavior MUST be covered by regression tests.
+
+No compatibility-affecting change may be merged without updating classified tests.
 
 ---
 
@@ -254,8 +421,8 @@ For each public API and each key private boundary, documentation MUST clearly sp
     * Whether capability negotiation exists and how it works
 3. **Compatibility Direction**
     * Whether the component supports:
-         * New caller → old callee degradation
-         * Old caller → new callee compatibility
+         * New caller -> old callee degradation
+         * Old caller -> new callee compatibility
     * Any explicitly unsupported cross-version interactions
 4. **Degradation Semantics**
     * What happens when an extension is unsupported
