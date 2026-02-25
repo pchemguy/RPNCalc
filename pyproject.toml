@@ -124,9 +124,9 @@ combine-as-imports = true
 
 
 [tool.pytest.ini_options]
+testpaths = ["rpncalc/tests"]
 minversion = "8.0"
 addopts = "-ra -q"
-testpaths = ["rpncalc/tests"]
 
 
 [tool.mypy]
