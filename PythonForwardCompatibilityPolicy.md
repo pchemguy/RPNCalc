@@ -10,7 +10,7 @@
 
 Public and inter-component APIs SHALL support controlled forward evolution through additive, backward-safe changes only. Additive changes (e.g., new keyword-only parameters with defaults, optional structured fields, or explicitly negotiated capabilities) are permitted only when baseline contract semantics remain preserved. Unknown or unsupported extensions must be either safely ignored under documented degradation rules or rejected with explicit, deterministic errors - never silently misinterpreted. Extensibility must be explicit, typed, validated, and capability-aware; it must not weaken type guarantees or obscure contract clarity. Silent semantic changes are prohibited.
 
-Governing documentation, public APIs, and key private architectural boundaries MUST explicitly declare compliance with this policy, clearly define their baseline contracts and extension conventions, and document degradation and compatibility behavior. Compatibility claims MUST be test-backed.
+Governing documentation, public APIs, and key private architectural boundaries MUST explicitly declare compliance with this policy, define baseline and extension capabilities, articulate degradation semantics, and document compatibility direction. Capability definitions SHALL be architecturally grounded and consistently referenced across decomposition, behavioral specifications, API documentation, and tests. Compatibility claims MUST be test-backed.
 
 ### 1. Objective and non-goals
 
@@ -221,9 +221,11 @@ Testing MUST validate:
 * Unknown-field behavior
 * Capability negotiation logic (if applicable)
 
+Documentation claims without test support constitute non-compliance.
+
 ---
 
-#### 11.1 Baseline Conformance Tests
+#### 11.1 Baseline Conformance
 
 Baseline tests MUST:
 
@@ -241,13 +243,13 @@ These tests:
 
 ---
 
-#### 11.2 Cross-Version / Cross-Capability Tests
+#### 11.2 Cross-Version / Cross-Capability
 
 If multiple implementations or contract generations exist, tests MUST include:
 
 1. **New caller -> old callee**
-    * Verify degradation behavior is deterministic
-    * Or verify explicit compatibility error
+    * Verify degradation behavior is deterministic or
+    * Verify explicit compatibility error
 2. **Old caller -> new callee**
     * Verify baseline semantics remain preserved
     * Verify no unexpected behavioral changes
@@ -260,7 +262,7 @@ If capability negotiation exists:
 
 ---
 
-#### 11.3 Unknown-Field / Extension-Field Tests
+#### 11.3 Unknown-Field / Extension-Field
 
 For structured data contracts:
 
@@ -271,14 +273,14 @@ For structured data contracts:
 
 Expected behavior MUST be explicitly asserted:
 
-* Ignored safely
-* Or rejected deterministically
+* Ignored safely or
+* Rejected deterministically
 
 Silent acceptance without validation is prohibited.
 
 ---
 
-#### 11.4 Test Classification: Strict vs Forward-Compatible
+#### 11.4 Strict vs Forward-Compatible Classification
 
 All tests that exercise compatibility-sensitive contracts SHOULD declare their compatibility intent.
 
@@ -331,16 +333,14 @@ Forward-compatible tests protect:
 If the project uses test oracles or structured test specifications:
 
 * Each oracle MUST explicitly declare compatibility intent:
-
-  * `"compatibility_mode": "strict"`
-  * `"compatibility_mode": "forward"`
+    * `"compatibility_mode": "strict"`
+    * `"compatibility_mode": "forward"`
 
 If no structured oracle system exists:
 
 * Tests SHOULD include explicit markers or naming conventions
-
-  * e.g., `test_xxx_strict`
-  * e.g., `test_xxx_forward_compatible`
+    * e.g., `test_xxx_strict`
+    * e.g., `test_xxx_forward_compatible`
 
 Compatibility intent must be visible and reviewable.
 
@@ -381,11 +381,11 @@ No compatibility-affecting change may be merged without updating classified test
 
 ---
 
-## 12. Documentation Compliance and Governance Requirements
+### 12. Documentation Compliance and Governance Requirements
 
-Forward compatibility SHALL be treated as a first-class governance objective, not an incidental property of code.
+Forward compatibility SHALL be treated as a first-class governance objective. Compatibility is an architectural property and MUST be reflected explicitly in project-level design documentation.
 
-### 12.1 Mandatory Declaration of Compliance
+#### 12.1 Mandatory Declaration of Compliance
 
 The following artifacts MUST explicitly state whether they:
 
@@ -404,7 +404,7 @@ The declaration MUST be explicit. Silence is non-compliance.
 
 ---
 
-### 12.2 Required Content in API Documentation
+#### 12.2 Required Content in API Documentation
 
 For each public API and each key private boundary, documentation MUST clearly specify:
 
@@ -435,7 +435,7 @@ For each public API and each key private boundary, documentation MUST clearly sp
 
 ---
 
-### 12.3 Structured Conventions Must Be Declared
+#### 12.3 Structured Conventions Must Be Declared
 
 If the project adopts conventions such as:
 
@@ -455,15 +455,15 @@ Implicit conventions are not acceptable.
 
 ---
 
-### 12.4 Private APIs
+#### 12.4 Private APIs
 
 Private APIs that:
 
 * form architectural boundaries,
 * support plugin mechanisms,
 * mediate core-shell separation,
-* define serialization formats,
-* or coordinate major subsystems
+* define serialization formats, or
+* coordinate major subsystems
 
 MUST be treated as contract-bearing interfaces.
 
@@ -471,7 +471,7 @@ They are subject to the same compatibility documentation requirements as public 
 
 ---
 
-### 12.5 Traceability
+#### 12.5 Traceability
 
 Governing documentation SHOULD:
 
@@ -485,14 +485,130 @@ Compatibility policy must be discoverable from the top-level project governance 
 
 ---
 
-### 12.6 Testing Alignment
+#### 12.6 Architectural Capability Decomposition
 
-Where forward compatibility is claimed:
+Projects that claim forward extensibility SHOULD adopt explicit capability-based decomposition at the architectural level.
 
-* tests MUST exist validating cross-version or cross-capability interactions,
-* degradation behavior MUST be covered by tests,
-* unknown-field handling MUST be tested.
+High-level architectural documentation (e.g., system overview, decomposition documents, behavioral specifications) SHOULD:
 
-Documentation claims without test support constitute non-compliance.
+1. Define the **Baseline Capability Set**
+
+   * The minimal feature set guaranteed across all compliant implementations.
+   * The canonical behavioral contract.
+   * The invariant data model subset.
+
+2. Define **Extension Capability Sets**
+
+   * Named, stable capability identifiers.
+   * Behavioral deltas relative to baseline.
+   * Data model extensions relative to baseline.
+   * Dependency relationships between capabilities.
+
+3. Define **Capability Hierarchy or Matrix**
+
+   * Which components may implement which capabilities.
+   * Whether capabilities are orthogonal or layered.
+   * Whether some capabilities imply others.
+
+Capabilities SHOULD be named using stable identifiers suitable for use in:
+
+* Code-level capability enumeration
+* API documentation
+* Behavioral specifications
+* Test oracles
+* Compatibility negotiation (if applicable)
+
+---
+
+#### 12.7 Capability Roadmap and Variants
+
+If multiple architectural variants are anticipated (e.g., baseline implementation, extended core, extended shell, plugin-enabled mode), documentation SHOULD include:
+
+* A capability roadmap identifying:
+
+  * Baseline implementation
+  * Planned extension capabilities
+  * Optional capability combinations
+* A matrix showing:
+
+  * Which architectural variants implement which capabilities
+  * Expected compatibility interactions
+
+This roadmap MUST avoid speculative commitments. It defines structure, not delivery promises.
+
+The roadmap enables:
+
+* Controlled additive evolution
+* Predictable compatibility boundaries
+* Consistent naming of extensions
+* Clear separation of baseline vs optional behavior
+
+---
+
+#### 12.8 Decomposition and Behavioral Specifications Alignment
+
+Capability names defined at architectural level MUST:
+
+* Be referenced in behavioral specifications.
+* Be referenced in API documentation.
+* Be referenced in compatibility tests (if applicable).
+
+Behavioral specifications SHOULD:
+
+* Explicitly declare which capabilities they depend on.
+* Describe behavioral deltas introduced by each capability.
+* Define degradation semantics when a capability is absent.
+
+Capabilities MUST NOT be introduced implicitly in lower-level documentation.
+
+---
+
+#### 12.9 Capability-Based Extensibility Preference
+
+Even when no runtime negotiation mechanism exists, capability-based design is RECOMMENDED.
+
+Benefits:
+
+* Clear separation of baseline vs optional features
+* Easier extension planning
+* Reduced risk of semantic drift
+* Test matrix clarity
+* Explicit compatibility reasoning
+
+Projects SHOULD prefer:
+
+* Capability declarations over version checks.
+* Behavioral capability flags over hidden structural assumptions.
+* Named extension sets over ad-hoc boolean feature toggles.
+
+Version numbers MAY be used, but version numbers alone are insufficient to describe extension semantics.
+
+---
+
+#### 12.10 Capability Naming Conventions
+
+Projects adopting capability-based extensibility MUST:
+
+* Use stable, documented capability identifiers.
+* Avoid transient or implementation-specific naming.
+* Avoid renaming capabilities without deprecation process.
+* Avoid overloading a capability name with evolving semantics.
+
+Capabilities represent behavioral contracts, not temporary implementation details.
+
+---
+
+#### 12.11 Cross-Document Traceability
+
+Capability definitions SHOULD be traceable across:
+
+* Architectural decomposition documents
+* Behavioral specifications
+* API documentation
+* Test classifications
+* Compatibility tests
+* Release notes (if applicable)
+
+Each capability SHOULD have a single canonical definition location, referenced elsewhere.
 
 ---
